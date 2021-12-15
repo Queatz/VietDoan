@@ -1,0 +1,18 @@
+<textarea #textareaRef [(ngModel)]="text" placeholder="Dán đoạn đây" spellcheck="false" (selectionchange)="dich()"></textarea>
+<aside #aside>
+  <div class="tu" *ngFor="let result of results">
+    <div class="title">
+      {{ result.tu }}
+    </div>
+    <div class="definition" *ngFor="let x of result.definitions">
+      {{ x }}
+    </div>
+    <div class="example" *ngFor="let x of result.examples">
+      <div class="example-title">Ví dụ</div>
+      {{ x }}
+    </div>
+    <div class="eng" *ngFor="let x of result.eng">
+      {{ x }}
+    </div>
+  </div>
+</aside>
