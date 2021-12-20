@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs";
+import { environment } from '../environments/environment';
 
 export class Entry {
   tu!: string
@@ -17,6 +18,6 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   tu(tu: string): Observable<Array<Entry>> {
-    return this.http.get<Array<Entry>>(`http://localhost:8084/tu/${tu}`)
+    return this.http.get<Array<Entry>>(`${environment.apiBaseUrl}/tu/${tu}`)
   }
 }
