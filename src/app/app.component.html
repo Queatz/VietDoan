@@ -1,5 +1,5 @@
-<textarea #textareaRef [(ngModel)]="text" placeholder="Dán đoạn đây" spellcheck="false" (selectionchange)="dich()"></textarea>
-<aside #aside>
+<textarea #textareaRef [(ngModel)]="text" (keydown.control.enter)="pull()" placeholder="Dán đoạn đây, và thử ctrl+Enter" spellcheck="false" (selectionchange)="dich()"></textarea>
+<aside [hidden]="hideAside" #aside>
   <div class="tu" *ngFor="let result of results">
     <div class="title">
       {{ result.tu }}
@@ -15,4 +15,10 @@
       {{ x }}
     </div>
   </div>
+  <div class="close-aside" title="Close" (click)="hideAside = true">
+    ❌
+  </div>
 </aside>
+<div class="show-aside" *ngIf="hideAside" title="Show" (click)="hideAside = false" [class.has-desc]="results.length">
+  🔍
+</div>

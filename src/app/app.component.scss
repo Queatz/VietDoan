@@ -28,6 +28,7 @@ textarea, aside {
 aside {
   overflow-y: auto;
   white-space: pre-wrap;
+  position: relative;
 
   .tu {
     margin-bottom: 2rem;
@@ -68,6 +69,35 @@ textarea {
   line-height: 2;
 
   outline: none;
+}
+
+.close-aside {
+  position: absolute;
+  cursor: pointer;
+  top: .5rem;
+  right: .5rem;
+  display: none;
+}
+
+.show-aside {
+  position: absolute;
+  cursor: pointer;
+  top: .5rem;
+  right: .5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.has-desc {
+    background: greenyellow;
+  }
+}
+
+aside:hover .close-aside {
+  display: block;
 }
 
 @media screen and (max-width: 1024px) {

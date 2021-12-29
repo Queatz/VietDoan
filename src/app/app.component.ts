@@ -10,13 +10,14 @@ import { delay, of, Subscription } from "rxjs";
 export class AppComponent implements AfterViewInit {
   text = localStorage.getItem('content') ?? ''
   results: Array<Entry> = []
+  hideAside = false
 
   @ViewChild("textareaRef", { static: true, read: ViewContainerRef }) textareaRef!: ViewContainerRef
   @ViewChild("aside", { static: true, read: ViewContainerRef }) aside!: ViewContainerRef
 
   private textarea!: HTMLTextAreaElement
-  private sub?: Subscription;
-  private sub2?: Subscription;
+  private sub?: Subscription
+  private sub2?: Subscription
 
   constructor(private api: ApiService, private cr: ChangeDetectorRef) {
   }
@@ -29,7 +30,7 @@ export class AppComponent implements AfterViewInit {
     const tu = this.textarea.value.substr(
       this.textarea.selectionStart,
       this.textarea.selectionEnd - this.textarea.selectionStart
-    ).replace(new RegExp('[()\\[\\]\'\"!.,?/]', 'g'), ' ').trim()
+    ).replace(new RegExp('[()\\[\\]\'\"!.,;:?“”/]', 'g'), ' ').trim()
 
     if (!tu || tu.length > 128) {
       this.results = []
@@ -55,5 +56,29 @@ export class AppComponent implements AfterViewInit {
 
     this.sub2?.unsubscribe()
     this.sub2 = of(true).pipe(delay(5000)).subscribe(() => localStorage.setItem('content', this.text))
+  }
+
+  pull() {
+    const desc = [
+      this.results.filter(x => x.definitions?.length).map(x => x.definitions),
+      this.results.filter(x => x.examples?.length).map(x => x.examples!.map(ex => `Ví dụ: ${ex}`))
+    ].flat(2)
+
+    if (!desc.length) {
+      return
+    }
+
+    const selection = this.text.substr(
+      this.textarea.selectionStart,
+      this.textarea.selectionEnd - this.textarea.selectionStart
+    )
+
+    this.text = `${selection}\n\n${desc.join('\n\n')}\n\n↵ ↵ ↵\n\n${this.text}`
+
+    setTimeout(() => {
+      this.textarea.scrollTo(0, 0)
+      this.textarea.selectionStart = 0
+      this.textarea.selectionEnd = selection.length
+    })
   }
 }
