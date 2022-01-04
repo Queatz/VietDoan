@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewInit {
   private textarea!: HTMLTextAreaElement
   private sub?: Subscription
   private sub2?: Subscription
+  private sub3?: Subscription
 
   constructor(private api: ApiService, private cr: ChangeDetectorRef) {
   }
@@ -35,8 +36,10 @@ export class AppComponent implements AfterViewInit {
 
     this.translation = ''
 
+    this.sub3?.unsubscribe()
+
     if (tu) {
-      this.api.translate(tu).subscribe(
+      this.sub3 = this.api.translate(tu).subscribe(
         translation => {
           this.translation = translation
           this.cr.detectChanges()
