@@ -26,7 +26,7 @@ export class ApiService {
     const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=vi&tl=en&dt=t&q=" + encodeURI(tu)
 
     return this.http.get<any>(url).pipe(
-      map(x => x[0][0][0])
+      map(x => x[0].map((y: any[]) => y[0]).join('\n'))
     )
   }
 }
