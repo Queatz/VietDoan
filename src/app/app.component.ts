@@ -10,6 +10,7 @@ import { delay, of, Subscription } from "rxjs";
 export class AppComponent implements AfterViewInit {
   text = localStorage.getItem('content') ?? ''
   results: Array<Entry> = []
+  translation: string = ''
   hideAside = false
 
   @ViewChild("textareaRef", { static: true, read: ViewContainerRef }) textareaRef!: ViewContainerRef
@@ -30,7 +31,18 @@ export class AppComponent implements AfterViewInit {
     const tu = this.textarea.value.substr(
       this.textarea.selectionStart,
       this.textarea.selectionEnd - this.textarea.selectionStart
-    ).replace(new RegExp('[()\\[\\]\'\"!.,;:?“”/]', 'g'), ' ').trim()
+    ).replace(new RegExp('[()\\[\\]\'\"!.,;:?“”…/]', 'g'), ' ').trim()
+
+    this.translation = ''
+
+    if (tu) {
+      this.api.translate(tu).subscribe(
+        translation => {
+          this.translation = translation
+          this.cr.detectChanges()
+        }
+      )
+    }
 
     if (!tu || tu.length > 128) {
       this.results = []

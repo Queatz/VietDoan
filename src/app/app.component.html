@@ -15,6 +15,12 @@
       {{ x }}
     </div>
   </div>
+  <div class="tu" *ngIf="translation">
+    <div class="translation">
+      <div class="translation-title">Dịch</div>
+      {{ translation }}
+    </div>
+  </div>
   <div class="close-aside" title="Close" (click)="hideAside = true">
     ❌
   </div>

@@ -56,6 +56,20 @@ aside {
       }
     }
 
+    .translation {
+      margin-bottom: 1rem;
+      background: #f8f0ff;
+      padding: .5rem;
+      border-radius: .25rem;
+
+      &-title {
+        font-style: normal;
+        opacity: .5;
+        font-weight: bold;
+        font-size: small;
+      }
+    }
+
     .eng {
       margin-bottom: 1rem;
       color: #aaa;
